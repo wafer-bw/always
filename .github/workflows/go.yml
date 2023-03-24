@@ -40,13 +40,10 @@ jobs:
       - name: Vet
         run: go vet ./...
 
-      - name: Install Tools
-        run: |
-          go install golang.org/x/vuln/cmd/govulncheck@latest
-          go install golang.org/x/tools/cmd/goimports@latest
-
       - name: Formatting
-        run: go run golang.org/x/tools/cmd/goimports -w . && git diff --exit-code
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+          go run golang.org/x/tools/cmd/goimports -w . && git diff --exit-code
 
       - name: Tests
         run: go test -v -count=1 -race -shuffle=on -coverprofile=coverage.txt ./...
@@ -60,7 +57,9 @@ jobs:
           version: latest
 
       - name: Vuln Check
-        run: govulncheck -test ./...
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck -test ./...
 
       - name: Coverage
         uses: codecov/codecov-action@v3
