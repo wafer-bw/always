@@ -3,3 +3,4 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/wafer-bw/always)](https://goreportcard.com/report/github.com/wafer-bw/always)
 [![CodeQL](https://github.com/wafer-bw/always/actions/workflows/codeql.yml/badge.svg)](https://github.com/wafer-bw/always/actions/workflows/codeql.yml)
 [![ci](https://github.com/wafer-bw/always/actions/workflows/ci.yml/badge.svg)](https://github.com/wafer-bw/always/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/wafer-bw/always/branch/main/graph/badge.svg?token=1O4ODLKSM1)](https://codecov.io/gh/wafer-bw/always)
