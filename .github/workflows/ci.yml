@@ -57,11 +57,11 @@ jobs:
       - name: Vuln Check
         run: go run golang.org/x/vuln/cmd/govulncheck@latest -test ./...
 
-      # - name: Coverage
-      #   uses: codecov/codecov-action@v3
-      #   continue-on-error: true
-      #   with:
-      #     token: ${{secrets.CODECOV_TOKEN}}
-      #     file: ./coverage.txt
-      #     fail_ci_if_error: false
-      #     verbose: true
+      - name: Coverage
+        uses: codecov/codecov-action@v3
+        # continue-on-error: true
+        # with:
+        #   token: ${{secrets.CODECOV_TOKEN}}
+        #   file: ./coverage.txt
+        #   fail_ci_if_error: false
+        #   verbose: true
