@@ -1,0 +1,71 @@
+name: go
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run:
+    name: Go
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    strategy:
+      fail-fast: true
+      matrix:
+        go: ['stable', 'oldstable']
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+          check-latest: true
+
+      - name: Mod Tidy
+        run: go mod tidy && git diff --exit-code
+
+      - name: Mod Download
+        run: go mod download
+
+      - name: Mod Verify
+        run: go mod verify
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Install Tools
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Formatting
+        run: go run golang.org/x/tools/cmd/goimports -w . && git diff --exit-code
+
+      - name: Tests
+        run: go test -v -count=1 -race -shuffle=on -coverprofile=coverage.txt ./...
+
+      - name: Benchmarks
+        run: go test -v -shuffle=on -run=- -bench=. -benchtime=1x ./...
+
+      - name: Linting
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+
+      - name: Vuln Check
+        run: govulncheck -test ./...
+
+      - name: Coverage
+        uses: codecov/codecov-action@v3
+        continue-on-error: true
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./coverage.txt
+          fail_ci_if_error: false
