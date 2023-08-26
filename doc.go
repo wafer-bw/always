@@ -1,2 +1,3 @@
-// Package always provides a wrapper for constructor style functions that panics on an error.
+// Package always provides wrappers that panic on error for standard function
+// signatures.
 package always
