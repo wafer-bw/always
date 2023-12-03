@@ -9,7 +9,11 @@ import (
 )
 
 func TestMust(t *testing.T) {
+	t.Parallel()
+
 	t.Run("returns result & does not panic when there is no error", func(t *testing.T) {
+		t.Parallel()
+
 		expectResult := "foo"
 		input := func() (string, error) {
 			return expectResult, nil
@@ -28,6 +32,8 @@ func TestMust(t *testing.T) {
 	})
 
 	t.Run("panic when there is an error", func(t *testing.T) {
+		t.Parallel()
+
 		expectResult, expectPanic := "", "oh no"
 		input := func() (string, error) {
 			return expectResult, errors.New(expectPanic)
@@ -49,7 +55,11 @@ func TestMust(t *testing.T) {
 }
 
 func TestMustDo(t *testing.T) {
+	t.Parallel()
+
 	t.Run("does not panic when there is no error", func(t *testing.T) {
+		t.Parallel()
+
 		input := func() error {
 			return nil
 		}
@@ -64,6 +74,8 @@ func TestMustDo(t *testing.T) {
 	})
 
 	t.Run("panic when there is an error", func(t *testing.T) {
+		t.Parallel()
+
 		expectPanic := "oh no"
 		input := func() error {
 			return errors.New(expectPanic)
@@ -78,5 +90,18 @@ func TestMustDo(t *testing.T) {
 		}()
 
 		always.MustDo(input())
+	})
+}
+
+func TestAccept(t *testing.T) {
+	t.Parallel()
+
+	t.Run("returns the first argument, ignoring the first", func(t *testing.T) {
+		t.Parallel()
+
+		expect := "hello"
+		if v := always.Accept(expect, "world"); v != expect {
+			t.Errorf("expected %s, got %s", expect, v)
+		}
 	})
 }

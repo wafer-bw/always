@@ -1,3 +1,3 @@
-// Package always provides wrappers that panic on error for standard function
-// signatures.
+// Package always provides wrappers that simplify the usage of common try-like
+// functions & methods.
 package always

@@ -16,3 +16,8 @@ func MustDo(err error) {
 		panic(err)
 	}
 }
+
+// Accept ignores the second argument and returns the first.
+func Accept[T any, Ignored any](t T, _ Ignored) T {
+	return t
+}
